@@ -16,7 +16,6 @@
     font-size: 2em;
   }
   .header-badge {
-    margin-left: -10px;
     max-width: 133px;
   }
   .content {
@@ -41,6 +40,28 @@
 .logo-container {
   display: flex;
   align-items: center;
+
+  // Wrap the anchor tightly around its logo so the clickable area lines up
+  // with the visible wordmark. Left as a plain inline `a`, the link box keeps
+  // the line-box descender space below the image (a few px of dead click area
+  // under each logo) and the -10px optical nudge used to sit on the <img>,
+  // leaving the left edge of each logo outside the link. inline-flex removes
+  // the descender gap; moving the nudge onto the link keeps the hitbox on the
+  // logo. Fixes #36.
+  a {
+    display: inline-flex;
+    margin-left: -10px;
+
+    // Guarantee a visible, on-brand focus ring for keyboard users. These are
+    // image links with no text, and the page's link colour is the same blurple
+    // as the header behind them, so a relied-upon default ring can be hard to
+    // see. A white outline with offset reads clearly against the header.
+    &:focus-visible {
+      outline: 3px solid $white;
+      outline-offset: 3px;
+      border-radius: 2px;
+    }
+  }
 }
 
 .header-text {
