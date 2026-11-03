@@ -18,7 +18,11 @@ $(function () {
     e.stopPropagation()
     flexContainer.toggleClass('active') 
     sideNav.toggleClass('active')
-    this.setAttribute("aria-expanded", 'true')
+    // aria-expanded belongs on the button that opens the menu, and must match
+    // whether the menu is now open or closed (not just always 'true') -
+    // otherwise closing via the nav's own Close button leaves screen readers
+    // hearing "expanded" even though the menu is shut.
+    navButton[0].setAttribute("aria-expanded", sideNav.hasClass('active') ? 'true' : 'false')
     // if class toggle is active, focus on close button. Otherwise, focus on menu button.
     if (sideNav[0].classList[1] === 'active') {
       setTimeout(function(){
@@ -38,7 +42,7 @@ $(function () {
       e.stopPropagation()
       flexContainer.toggleClass('active') 
       sideNav.toggleClass('active')
-      this.setAttribute("aria-expanded", 'true')
+      navButton[0].setAttribute("aria-expanded", sideNav.hasClass('active') ? 'true' : 'false')
       setTimeout(function(){
         document.getElementById("menu-first").focus()
       }, 200)
@@ -49,7 +53,7 @@ $(function () {
       e.stopPropagation()
       flexContainer.toggleClass('active') 
       sideNav.toggleClass('active')
-      this.setAttribute("aria-expanded", 'true')
+      navButton[0].setAttribute("aria-expanded", sideNav.hasClass('active') ? 'true' : 'false')
       setTimeout(function(){
         document.getElementById("menu-close-button").focus()
       }, 200)
